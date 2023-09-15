@@ -1,0 +1,24 @@
+.input {
+    width: 600px;
+    height: 60px;
+    border: 10px solid #FFFFFF;
+    border-radius: 18px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    font-size: 32px;
+    outline: none;
+}
+
+.inputInicio {
+    background-color: #FFFFFF;
+}
+
+.inputAcertou {
+    background-color: #18DF20;
+}
+
+.inputErrou {
+    background-color: #F15E5E;
+}

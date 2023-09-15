@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { Recorde } from './components/Recorde';
+import { Pokemon } from './components/Pokemon';
+import { Input } from './components/Input';
+import { Dica } from './components/Dica';
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [jogando, setJogando] = useState(false);
+  const [pontuacao, setPontuacao] = useState(0);
+  const [pokemonChute, setPokemonChute] = useState('');
+  const [acertouChute, setAcertouChute] = useState(true);
+  const [corDeFundoInput, setCorDeFundoInput] = useState("#bebebe");
+
+  const handleInputValue = (e) => {
+    setPokemonChute(e);
+  }
+
+  const handleKeyUpInputEvent = (e) => {
+    if(e.keyCode === 13 || e.code === "Enter") {
+      setCorDeFundoInput("#18DF20");
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='d-flex-a-center-j-space-evenly-column'>
+      <Recorde atual={pontuacao} maximo={0} />
+      <div className='container d-flex-a-center-j-space-evenly-column'>
+        <Pokemon urlImagem={'/12.png'} isRevelado={true} />
+        <Input valueInput={pokemonChute} setInputValue={handleInputValue} 
+        keyUpEvent={handleKeyUpInputEvent} corDeFundo={corDeFundoInput} />
+        <Dica tipo={"Água"}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
-export default App
+export default App;
