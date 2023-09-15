@@ -1,0 +1,18 @@
+.jogarBtn {
+    width: 250px;
+    height: 60px;
+    border-radius: 50px;
+    border: none;
+    background-color: #ffb300;
+    cursor: pointer;
+    outline: none;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.jogarBtn:hover {
+    transition: 200ms ease-in;
+    background-color: #ef8802;
+    transform: scale(1.1);
+}
