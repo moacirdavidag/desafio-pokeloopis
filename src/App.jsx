@@ -7,43 +7,15 @@ import axios from 'axios';
 import { BotaoJogar } from './components/BotaoJogar';
 
 
-// async function GetNewPokemon() {
-//   return new Promise((resolve, reject) => {
-//     let xhr = new XMLHttpRequest();
-//     xhr.onload = function () {
-//       if (this.status === 200) {
-//         var data = JSON.parse(this.responseText);
-//         if (data.sprites.front_default != null) {
-//           resolve(data);
-//         } else {
-//           resolve(null);
-//         }
-//       } else {
-//         reject("Erro ao buscar os dados do Pokémon.");
-//       }
-//     };
-
-//     let id = GetNewId();
-//     xhr.open('GET', `https://pokeapi.co/api/v2/pokemon/${id}/`, true);
-//     xhr.send();
-//   });
-// }
-
-// async function GetConvertedPokemon(){
-//   let pokemon = await GetNewPokemon();
-//   while(pokemon === null) pokemon = await GetNewPokemon();
-//   let imageUrl = pokemon.sprites.other.home.front_default;
-//   let name = pokemon.name;
-//   let type = pokemon.types[0].type.name;//flavio disse que so precisava do primeiro tipo
-//   return {
-//     imageUrl,
-//     name,
-//     type
-//   }
-// }
-
 function App() {
   const API_URL = "https://pokeapi.co/api/v2/pokemon";
+  const CORES_FUNDO = {
+    certo : "#18DF20",
+    errado : "#ff0000",
+    neutro :"#bebebe"
+  };
+  const INITIAL_LIFE = 2;
+
   const [partida, setPartida] = useState({
     jogando: false,
     pontuacao: 0,
@@ -54,12 +26,14 @@ function App() {
   const [pontuacao, setPontuacao] = useState(0);
   const [pokemonChute, setPokemonChute] = useState('');
   const [acertouChute, setAcertouChute] = useState(false);
-  const [corDeFundoInput, setCorDeFundoInput] = useState("#bebebe");
+  const [corDeFundoInput, setCorDeFundoInput] = useState(CORES_FUNDO.neutro);
   const [pokemonData, setPokemonData] = useState({
     imageUrl: null,
     type: null,
     name: null
   });
+  const [next, setNext] = useState(false);
+  const [lifePoints, setLifePoints] = useState(INITIAL_LIFE);
 
   const handleGetNewId = () => {
 
@@ -78,6 +52,51 @@ function App() {
 
   }
 
+  const handleInputValue = (e) => {
+    setPokemonChute(e);
+  }
+
+  const handleKeyUpInputEvent = (e) => {
+    if (e.keyCode === 13 || e.code === "Enter") {
+      if (pokemonChute.toLowerCase() === pokemonData.name.toLowerCase().replace(/-/g, " ")) {//nao precisa mais dos hifens
+        setAcertouChute(true);
+        setCorDeFundoInput(CORES_FUNDO.certo);
+        setPontuacao(pontuacao + 1);
+        handleNext();
+      }else{
+        setCorDeFundoInput(CORES_FUNDO.errado);
+        handleLifePoints();
+      }
+    }
+  }
+
+  const handleNext = () => {
+    setTimeout(()=>{
+      setAcertouChute(false);
+      setPokemonData(null);
+      setPokemonChute("");
+      setCorDeFundoInput(CORES_FUNDO.neutro);
+      setNext(!next);
+    }, 1000);
+  };
+  
+  const handlePlay = () => {
+    setJogando(!jogando);
+    setPokemonData(null);
+    handleNext();
+  }
+
+  const handleGameOver = () => {
+    setLifePoints(INITIAL_LIFE);
+    handlePlay();
+    //o que acontece quando erra e perde
+  }
+  const handleLifePoints = () => {
+    setLifePoints(lifePoints-1);
+    //console.log(lifePoints);
+    if(lifePoints <= 0) handleGameOver();
+  }
+  
   useEffect(() => {
     const id = handleGetNewId();
 
@@ -87,53 +106,21 @@ function App() {
           if (response.status === 200) {
             const data = response.data;
             setPokemonData({
-              imageUrl: data.sprites.other.home.front_default,
+              imageUrl: data.sprites.other.home.front_default,//as vezes o pokemon não possui esse sprite
               name: data.name,
               type: data.types[0].type.name
             });
             console.log(data.name);
           }
-        })
-
-    }
-
+        });
+    };
+    
     fetchPokemon();
 
-  }, [jogando, acertouChute])
-
-  const handleInputValue = (e) => {
-    setPokemonChute(e);
-  }
-
-  const handleKeyUpInputEvent = (e) => {
-    if (e.keyCode === 13 || e.code === "Enter") {
-      if (pokemonChute.toLowerCase() === pokemonData.name.toLowerCase()) {
-        setAcertouChute(true);
-        setCorDeFundoInput("#18DF20");
-        setPontuacao(pontuacao + 1);
-      }
-    }
-  }
-
-  // const toggleFindNewPokemon = () => {
-  //   setFindNewPokemon(!findNewPokemon);
-  // }
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const data = await GetConvertedPokemon();
-  //     setPokemonData(data);
-  //     console.log(data);
-  //   }
-  //   fetchData();
-  // }, [findNewPokemon]);
-
-  const handlePlay = () => {
-    setJogando(!jogando);
-  }
-
-  return (
-    <>
+  }, [next]);
+  
+      return (
+        <>
       <BotaoJogar handlePlay={handlePlay} isJogando={jogando} />
       {jogando &&
         <div className='container'>
@@ -146,7 +133,7 @@ function App() {
                 setInputValue={handleInputValue}
                 keyUpEvent={handleKeyUpInputEvent}
                 corDeFundo={corDeFundoInput}
-              />
+                />
               <Dica tipo={pokemonData.type} />
             </>
           ) : (
