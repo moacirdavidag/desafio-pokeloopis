@@ -1,7 +1,7 @@
 /* Importação das fontes utilizadas no projeto */
 /* Inter */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 * {
   margin: 0 auto;
@@ -18,7 +18,7 @@ body {
   background-color: crimson;
   background-image: url('./assets/images/background.png');
   background-size: cover;
-  font-family: 'Inter', sans-serif;
+  font-family: 'VT323', monospace;
 }
 
 .container {

@@ -1,0 +1,26 @@
+.botaoMusica {
+    width: 60px;
+    height: 60px;
+    display: block;
+    margin: 20px auto;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.botaoMusica:hover {
+    transition: 200ms ease-in;
+    transform: scale(1.1);
+}
+
+.ativo {
+    background-color: #ffb300;
+    color: #FFFFFF;
+}
+
+.desligado {
+    background-color: #d47107;
+    color: #955107;
+}

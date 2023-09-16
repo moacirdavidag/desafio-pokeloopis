@@ -5,16 +5,21 @@ import { Input } from './components/Input';
 import { Dica } from './components/Dica';
 import axios from 'axios';
 import { BotaoJogar } from './components/BotaoJogar';
+import { BotaoMusica } from './components/BotaoMusica';
+import AMBIENT_SOUND_ARCHIVE from '/sounds/mixkit-ambient-game.mp3';
+import { TituloJogo } from './components/TituloJogo';
+import { salvarRecorde } from './services/data';
 
 
 function App() {
   const API_URL = "https://pokeapi.co/api/v2/pokemon";
   const CORES_FUNDO = {
-    certo : "#18DF20",
-    errado : "#ff0000",
-    neutro :"#bebebe"
+    certo: "#18DF20",
+    errado: "#ff0000",
+    neutro: "#bebebe"
   };
-  const INITIAL_LIFE = 2;
+
+  const AMBIENT_AUDIO = new Audio(AMBIENT_SOUND_ARCHIVE);
 
   const [partida, setPartida] = useState({
     jogando: false,
@@ -33,7 +38,7 @@ function App() {
     name: null
   });
   const [next, setNext] = useState(false);
-  const [lifePoints, setLifePoints] = useState(INITIAL_LIFE);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   const handleGetNewId = () => {
 
@@ -53,25 +58,31 @@ function App() {
   }
 
   const handleInputValue = (e) => {
+    console.log(pokemonChute);
     setPokemonChute(e);
   }
 
   const handleKeyUpInputEvent = (e) => {
     if (e.keyCode === 13 || e.code === "Enter") {
       if (pokemonChute.toLowerCase() === pokemonData.name.toLowerCase().replace(/-/g, " ")) {//nao precisa mais dos hifens
+        handleSounds('acertou');
         setAcertouChute(true);
         setCorDeFundoInput(CORES_FUNDO.certo);
         setPontuacao(pontuacao + 1);
         handleNext();
-      }else{
+      } else {
+        handleSounds('errou');
         setCorDeFundoInput(CORES_FUNDO.errado);
-        handleLifePoints();
+        setPokemonChute(pokemonData.name); // revela o nome do pokemon
+        setTimeout(() => {
+          handleGameOver();
+        }, 3000);
       }
     }
   }
 
   const handleNext = () => {
-    setTimeout(()=>{
+    setTimeout(() => {
       setAcertouChute(false);
       setPokemonData(null);
       setPokemonChute("");
@@ -79,61 +90,100 @@ function App() {
       setNext(!next);
     }, 1000);
   };
-  
+
   const handlePlay = () => {
+    console.log(jogando);
     setJogando(!jogando);
     setPokemonData(null);
+    console.log(jogando);
     handleNext();
   }
 
   const handleGameOver = () => {
-    setLifePoints(INITIAL_LIFE);
-    handlePlay();
-    //o que acontece quando erra e perde
+    salvarRecorde(pontuacao);
+    setPontuacao(0);
+    setPokemonChute("");
+    setJogando(!jogando);
   }
-  const handleLifePoints = () => {
-    setLifePoints(lifePoints-1);
-    //console.log(lifePoints);
-    if(lifePoints <= 0) handleGameOver();
-  }
-  
-  useEffect(() => {
-    const id = handleGetNewId();
 
-    async function fetchPokemon() {
-      await axios.get(`${API_URL}/${id}`)
-        .then((response) => {
-          if (response.status === 200) {
-            const data = response.data;
-            setPokemonData({
-              imageUrl: data.sprites.other.home.front_default,//as vezes o pokemon não possui esse sprite
-              name: data.name,
-              type: data.types[0].type.name
-            });
-            console.log(data.name);
-          }
-        });
-    };
-    
-    fetchPokemon();
+  const handleSounds = (opcao) => {
+    const audioCorrect = new Audio('/sounds/mixkit-acertou.wav');
+    const audioLose = new Audio('/sounds/mixkit-falhou.wav');
+
+    if (opcao === 'acertou') {
+      audioCorrect.play();
+    }
+    if (opcao === 'errou') {
+      audioLose.play();
+    }
+  }
+
+  const handleGameAmbientSound = () => {
+    if (isMusicPlaying === false) {
+      setIsMusicPlaying(true);
+      console.log(isMusicPlaying);
+      AMBIENT_AUDIO.play();
+      AMBIENT_AUDIO.loop = true;
+      console.log(isMusicPlaying);
+    }
+    if (isMusicPlaying === true) {
+      console.log("Falso")
+      AMBIENT_AUDIO.pause();
+      AMBIENT_AUDIO.currentTime = 0;
+      setIsMusicPlaying(false);
+    }
+  }
+
+
+
+  useEffect(() => {
+
+    if (jogando) {
+      const id = handleGetNewId();
+      async function fetchPokemon() {
+        await axios.get(`${API_URL}/${id}`)
+          .then((response) => {
+            if (response.status === 200) {
+              const data = response.data;
+              setPokemonData({
+                imageUrl: data.sprites.other.home.front_default,//as vezes o pokemon não possui esse sprite
+                name: data.name,
+                type: data.types[0].type.name
+              });
+              if (!data.sprites.other.home.front_default) {
+                setPokemonData({
+                  ...pokemonData,
+                  imageUrl: data.sprites.home_default
+                })
+              }
+              console.log(data.name);
+            }
+          });
+      };
+
+      fetchPokemon();
+
+    }
 
   }, [next]);
-  
-      return (
-        <>
+
+  return (
+    <>
+      <TituloJogo isJogando={jogando} />
       <BotaoJogar handlePlay={handlePlay} isJogando={jogando} />
+      <BotaoMusica estado={isMusicPlaying} onClick={handleGameAmbientSound} isJogando={jogando} />
       {jogando &&
         <div className='container'>
-          <Recorde atual={pontuacao} maximo={0} />
+          <Recorde atual={pontuacao} maximo={localStorage.getItem('recorde')} />
           {pokemonData ? (
             <>
               <Pokemon urlImagem={pokemonData.imageUrl} isRevelado={acertouChute} />
               <Input
                 valueInput={pokemonChute}
                 setInputValue={handleInputValue}
-                keyUpEvent={handleKeyUpInputEvent}
+                keyDownEvent={handleKeyUpInputEvent}
                 corDeFundo={corDeFundoInput}
-                />
+              />
               <Dica tipo={pokemonData.type} />
             </>
           ) : (

@@ -6,15 +6,8 @@
     text-align: center;
     color: #FFFFFF;
     font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    font-size: 32px;
+    font-family: 'VT323', monospace;
+    font-size: 36px;
     outline: none;
 }
 
-.inputAcertou {
-    background-color: #18DF20;
-}
-
-.inputErrou {
-    background-color: #F15E5E;
-}
