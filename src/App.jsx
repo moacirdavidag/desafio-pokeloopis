@@ -58,7 +58,6 @@ function App() {
   }
 
   const handleInputValue = (e) => {
-    console.log(pokemonChute);
     setPokemonChute(e);
   }
 
@@ -119,18 +118,15 @@ function App() {
   }
 
   const handleGameAmbientSound = () => {
-    if (isMusicPlaying === false) {
-      setIsMusicPlaying(true);
-      console.log(isMusicPlaying);
-      AMBIENT_AUDIO.play();
-      AMBIENT_AUDIO.loop = true;
-      console.log(isMusicPlaying);
-    }
-    if (isMusicPlaying === true) {
-      console.log("Falso")
+    if (isMusicPlaying) {
+      console.log('parando a música');
+      setIsMusicPlaying(false);
       AMBIENT_AUDIO.pause();
       AMBIENT_AUDIO.currentTime = 0;
-      setIsMusicPlaying(false);
+    } else {
+      setIsMusicPlaying(true);
+      AMBIENT_AUDIO.play();
+      AMBIENT_AUDIO.loop = true;
     }
   }
 
@@ -151,10 +147,10 @@ function App() {
                 type: data.types[0].type.name
               });
               if (!data.sprites.other.home.front_default) {
-                setPokemonData({
-                  ...pokemonData,
-                  imageUrl: data.sprites.home_default
-                })
+                setPokemonData((prevState) => ({
+                  ...prevState,
+                  imageUrl: data.sprites.home_default,
+                }));
               }
               console.log(data.name);
             }
@@ -171,7 +167,10 @@ function App() {
     <>
       <TituloJogo isJogando={jogando} />
       <BotaoJogar handlePlay={handlePlay} isJogando={jogando} />
-      <BotaoMusica estado={isMusicPlaying} onClick={handleGameAmbientSound} isJogando={jogando} />
+      <BotaoMusica estado={isMusicPlaying} onClick={() => {
+        setIsMusicPlaying(!isMusicPlaying);
+        handleGameAmbientSound();
+      }} isJogando={jogando} />
       {jogando &&
         <div className='container'>
           <Recorde atual={pontuacao} maximo={localStorage.getItem('recorde')} />
