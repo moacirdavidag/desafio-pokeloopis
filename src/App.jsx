@@ -21,12 +21,6 @@ function App() {
 
   const AMBIENT_AUDIO = new Audio(AMBIENT_SOUND_ARCHIVE);
 
-  const [partida, setPartida] = useState({
-    jogando: false,
-    pontuacao: 0,
-    pokemonChute: null,
-    acertouChute: null
-  })
   const [jogando, setJogando] = useState(false);
   const [pontuacao, setPontuacao] = useState(0);
   const [pokemonChute, setPokemonChute] = useState('');
@@ -119,7 +113,6 @@ function App() {
 
   const handleGameAmbientSound = () => {
     if (isMusicPlaying) {
-      console.log('parando a música');
       setIsMusicPlaying(false);
       AMBIENT_AUDIO.pause();
       AMBIENT_AUDIO.currentTime = 0;
@@ -129,8 +122,6 @@ function App() {
       AMBIENT_AUDIO.loop = true;
     }
   }
-
-
 
   useEffect(() => {
 
