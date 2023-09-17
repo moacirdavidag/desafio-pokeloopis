@@ -20,8 +20,6 @@ function App() {
     neutro: "#bebebe"
   };
 
-  const AMBIENT_AUDIO = new Audio(AMBIENT_SOUND_ARCHIVE);
-
   const [partida, setPartida] = useState({
     jogando: false,
     pontuacao: 0,
@@ -40,6 +38,7 @@ function App() {
   });
   const [next, setNext] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [ambientAudio, setAmbientAudio] = useState(new Audio(AMBIENT_SOUND_ARCHIVE));
 
   const handleGetNewId = () => {
 
@@ -121,15 +120,13 @@ function App() {
 
   const handleGameAmbientSound = () => {
     if (isMusicPlaying) {
-      console.log('parando a música');
-      setIsMusicPlaying(false);
-      AMBIENT_AUDIO.pause();
-      AMBIENT_AUDIO.currentTime = 0;
+      ambientAudio.pause();
+      ambientAudio.currentTime = 0;
     } else {
-      setIsMusicPlaying(true);
-      AMBIENT_AUDIO.play();
-      AMBIENT_AUDIO.loop = true;
+      ambientAudio.play();
+      ambientAudio.loop = true;
     }
+    setIsMusicPlaying(!isMusicPlaying);
   }
 
 
@@ -170,10 +167,7 @@ function App() {
     <>
       <TituloJogo isJogando={jogando} />
       <BotaoJogar handlePlay={handlePlay} isJogando={jogando} />
-      <BotaoMusica estado={isMusicPlaying} onClick={() => {
-        setIsMusicPlaying(!isMusicPlaying);
-        handleGameAmbientSound();
-      }} isJogando={jogando} />
+      <BotaoMusica estado={isMusicPlaying} onClick={handleGameAmbientSound} isJogando={jogando} />
       {jogando &&
         <div className='container'>
           <Recorde atual={pontuacao} maximo={localStorage.getItem('recorde')} />
