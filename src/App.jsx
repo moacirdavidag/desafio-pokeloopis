@@ -13,6 +13,7 @@ import { salvarRecorde } from './services/data';
 
 function App() {
   const API_URL = "https://pokeapi.co/api/v2/pokemon";
+  const DEFAULT_IMG_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
   const CORES_FUNDO = {
     certo: "#18DF20",
     errado: "#ff0000",
@@ -65,18 +66,19 @@ function App() {
     if (e.keyCode === 13 || e.code === "Enter") {
       if (pokemonChute.toLowerCase() === pokemonData.name.toLowerCase().replace(/-/g, " ")) {//nao precisa mais dos hifens
         handleSounds('acertou');
-        setAcertouChute(true);
+        //setAcertouChute(true);
         setCorDeFundoInput(CORES_FUNDO.certo);
         setPontuacao(pontuacao + 1);
         handleNext();
       } else {
         handleSounds('errou');
         setCorDeFundoInput(CORES_FUNDO.errado);
-        setPokemonChute(pokemonData.name); // revela o nome do pokemon
+        setPokemonChute(pokemonData.name.toLowerCase().replace(/-/g, " ")); // revela o nome do pokemon
         setTimeout(() => {
           handleGameOver();
         }, 3000);
       }
+      setAcertouChute(true);
     }
   }
 
@@ -142,16 +144,17 @@ function App() {
             if (response.status === 200) {
               const data = response.data;
               setPokemonData({
-                imageUrl: data.sprites.other.home.front_default,//as vezes o pokemon não possui esse sprite
+                //imageUrl: data.sprites.other.home.front_default,//as vezes o pokemon não possui esse sprite
+                imageUrl: `${DEFAULT_IMG_URL}${id}.png`,
                 name: data.name,
                 type: data.types[0].type.name
               });
-              if (!data.sprites.other.home.front_default) {
+              /*if (!data.sprites.other.home.front_default) {
                 setPokemonData((prevState) => ({
                   ...prevState,
                   imageUrl: data.sprites.home_default,
                 }));
-              }
+              }*/
               console.log(data.name);
             }
           });
