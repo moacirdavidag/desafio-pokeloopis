@@ -13,14 +13,19 @@ import { salvarRecorde } from './services/data';
 
 function App() {
   const API_URL = "https://pokeapi.co/api/v2/pokemon";
+  const DEFAULT_IMG_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
   const CORES_FUNDO = {
     certo: "#18DF20",
     errado: "#ff0000",
     neutro: "#bebebe"
   };
 
-  const AMBIENT_AUDIO = new Audio(AMBIENT_SOUND_ARCHIVE);
-
+  const [partida, setPartida] = useState({
+    jogando: false,
+    pontuacao: 0,
+    pokemonChute: null,
+    acertouChute: null
+  })
   const [jogando, setJogando] = useState(false);
   const [pontuacao, setPontuacao] = useState(0);
   const [pokemonChute, setPokemonChute] = useState('');
@@ -33,6 +38,7 @@ function App() {
   });
   const [next, setNext] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [ambientAudio, setAmbientAudio] = useState(new Audio(AMBIENT_SOUND_ARCHIVE));
 
   const handleGetNewId = () => {
 
@@ -59,18 +65,19 @@ function App() {
     if (e.keyCode === 13 || e.code === "Enter") {
       if (pokemonChute.toLowerCase() === pokemonData.name.toLowerCase().replace(/-/g, " ")) {//nao precisa mais dos hifens
         handleSounds('acertou');
-        setAcertouChute(true);
+        //setAcertouChute(true);
         setCorDeFundoInput(CORES_FUNDO.certo);
         setPontuacao(pontuacao + 1);
         handleNext();
       } else {
         handleSounds('errou');
         setCorDeFundoInput(CORES_FUNDO.errado);
-        setPokemonChute(pokemonData.name); // revela o nome do pokemon
+        setPokemonChute(pokemonData.name.toLowerCase().replace(/-/g, " ")); // revela o nome do pokemon
         setTimeout(() => {
           handleGameOver();
         }, 3000);
       }
+      setAcertouChute(true);
     }
   }
 
@@ -113,14 +120,13 @@ function App() {
 
   const handleGameAmbientSound = () => {
     if (isMusicPlaying) {
-      setIsMusicPlaying(false);
-      AMBIENT_AUDIO.pause();
-      AMBIENT_AUDIO.currentTime = 0;
+      ambientAudio.pause();
+      ambientAudio.currentTime = 0;
     } else {
-      setIsMusicPlaying(true);
-      AMBIENT_AUDIO.play();
-      AMBIENT_AUDIO.loop = true;
+      ambientAudio.play();
+      ambientAudio.loop = true;
     }
+    setIsMusicPlaying(!isMusicPlaying);
   }
 
   useEffect(() => {
@@ -133,16 +139,17 @@ function App() {
             if (response.status === 200) {
               const data = response.data;
               setPokemonData({
-                imageUrl: data.sprites.other.home.front_default,//as vezes o pokemon não possui esse sprite
+                //imageUrl: data.sprites.other.home.front_default,//as vezes o pokemon não possui esse sprite
+                imageUrl: `${DEFAULT_IMG_URL}${id}.png`,
                 name: data.name,
                 type: data.types[0].type.name
               });
-              if (!data.sprites.other.home.front_default) {
+              /*if (!data.sprites.other.home.front_default) {
                 setPokemonData((prevState) => ({
                   ...prevState,
                   imageUrl: data.sprites.home_default,
                 }));
-              }
+              }*/
               console.log(data.name);
             }
           });
@@ -158,10 +165,7 @@ function App() {
     <>
       <TituloJogo isJogando={jogando} />
       <BotaoJogar handlePlay={handlePlay} isJogando={jogando} />
-      <BotaoMusica estado={isMusicPlaying} onClick={() => {
-        setIsMusicPlaying(!isMusicPlaying);
-        handleGameAmbientSound();
-      }} isJogando={jogando} />
+      <BotaoMusica estado={isMusicPlaying} onClick={handleGameAmbientSound} isJogando={jogando} />
       {jogando &&
         <div className='container'>
           <Recorde atual={pontuacao} maximo={localStorage.getItem('recorde')} />
