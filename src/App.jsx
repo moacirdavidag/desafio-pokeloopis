@@ -15,12 +15,7 @@ import { API_URL, DEFAULT_IMG_URL } from './constants/connection-urls';
 import { Loading } from './components/Loading';
 
 function App() {
-  const [partida, setPartida] = useState({
-    jogando: false,
-    pontuacao: 0,
-    pokemonChute: null,
-    acertouChute: null
-  })
+
   const [jogando, setJogando] = useState(false);
   const [pontuacao, setPontuacao] = useState(0);
   const [pokemonChute, setPokemonChute] = useState('');
@@ -158,7 +153,7 @@ function App() {
       <BotaoMusica estado={isMusicPlaying} onClick={handleGameAmbientSound} isJogando={jogando} />
       {jogando &&
         <div className='container'>
-          <Recorde atual={pontuacao} maximo={localStorage.getItem('recorde')} />
+          <Recorde atual={pontuacao} maximo={localStorage.getItem('recorde') || 0} />
           {pokemonData ? (
             <>
               <Pokemon urlImagem={pokemonData.imageUrl} isRevelado={acertouChute}

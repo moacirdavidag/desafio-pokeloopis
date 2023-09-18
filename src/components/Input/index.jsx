@@ -1,16 +1,18 @@
 import React from 'react';
 import './style.css';
 
-export const Input = ({valueInput, setInputValue, keyDownEvent, corDeFundo}) => {
+export const Input = ({ valueInput, setInputValue, keyDownEvent, corDeFundo }) => {
   return (
-    <input type="text" value={valueInput} onChange={e => {
+    <input type="text" value={valueInput}
+      onChange={e => {
         setInputValue(e.target.value);
-    }} 
-    onKeyDownCapture={e => {
+      }}
+      autoFocus
+      onKeyDownCapture={e => {
         keyDownEvent(e)
-    }}
-    className={`input`}
-    style={{background: corDeFundo}}
+      }}
+      className={`input`}
+      style={{ background: corDeFundo }}
     />
   )
 }
