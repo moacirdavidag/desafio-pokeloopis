@@ -166,14 +166,15 @@ function App() {
           <Recorde atual={pontuacao} maximo={localStorage.getItem('recorde')} />
           {pokemonData ? (
             <>
-              <Pokemon urlImagem={pokemonData.imageUrl} isRevelado={acertouChute} />
+              <Pokemon urlImagem={pokemonData.imageUrl} isRevelado={acertouChute}
+                corDeFundo={backgroundColors[pokemonData.type]} />
               <Input
                 valueInput={pokemonChute}
                 setInputValue={handleInputValue}
                 keyDownEvent={handleKeyUpInputEvent}
                 corDeFundo={corDeFundoInput}
               />
-              <Dica tipo={pokemonData.type} />
+              <Dica tipo={pokemonData.type} corDeFundo={backgroundColors[pokemonData.type]} />
             </>
           ) : (
             <p>Carregando...</p>
