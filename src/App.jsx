@@ -9,17 +9,11 @@ import { BotaoMusica } from './components/BotaoMusica';
 import AMBIENT_SOUND_ARCHIVE from '/sounds/mixkit-ambient-game.mp3';
 import { TituloJogo } from './components/TituloJogo';
 import { salvarRecorde } from './services/data';
-
+import { backgroundColors } from './constants/background-colors';
+import { inputColors } from './constants/input-colors';
+import { API_URL, DEFAULT_IMG_URL } from './constants/connection-urls';
 
 function App() {
-  const API_URL = "https://pokeapi.co/api/v2/pokemon";
-  const DEFAULT_IMG_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
-  const CORES_FUNDO = {
-    certo: "#18DF20",
-    errado: "#ff0000",
-    neutro: "#bebebe"
-  };
-
   const [partida, setPartida] = useState({
     jogando: false,
     pontuacao: 0,
@@ -30,7 +24,7 @@ function App() {
   const [pontuacao, setPontuacao] = useState(0);
   const [pokemonChute, setPokemonChute] = useState('');
   const [acertouChute, setAcertouChute] = useState(false);
-  const [corDeFundoInput, setCorDeFundoInput] = useState(CORES_FUNDO.neutro);
+  const [corDeFundoInput, setCorDeFundoInput] = useState(inputColors.neutro);
   const [pokemonData, setPokemonData] = useState({
     imageUrl: null,
     type: null,
@@ -66,12 +60,12 @@ function App() {
       if (pokemonChute.toLowerCase() === pokemonData.name.toLowerCase().replace(/-/g, " ")) {//nao precisa mais dos hifens
         handleSounds('acertou');
         //setAcertouChute(true);
-        setCorDeFundoInput(CORES_FUNDO.certo);
+        setCorDeFundoInput(inputColors.certo);
         setPontuacao(pontuacao + 1);
         handleNext();
       } else {
         handleSounds('errou');
-        setCorDeFundoInput(CORES_FUNDO.errado);
+        setCorDeFundoInput(inputColors.errado);
         setPokemonChute(pokemonData.name.toLowerCase().replace(/-/g, " ")); // revela o nome do pokemon
         setTimeout(() => {
           handleGameOver();
@@ -86,7 +80,7 @@ function App() {
       setAcertouChute(false);
       setPokemonData(null);
       setPokemonChute("");
-      setCorDeFundoInput(CORES_FUNDO.neutro);
+      setCorDeFundoInput(inputColors.neutro);
       setNext(!next);
     }, 1000);
   };
