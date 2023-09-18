@@ -104,6 +104,7 @@ function App() {
     setPontuacao(0);
     setPokemonChute("");
     setJogando(!jogando);
+    handleGameAmbientSound();
   }
 
   const handleSounds = (opcao) => {
