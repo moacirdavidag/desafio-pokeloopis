@@ -12,6 +12,7 @@ import { salvarRecorde } from './services/data';
 import { backgroundColors } from './constants/background-colors';
 import { inputColors } from './constants/input-colors';
 import { API_URL, DEFAULT_IMG_URL } from './constants/connection-urls';
+import { Loading } from './components/Loading';
 
 function App() {
   const [partida, setPartida] = useState({
@@ -139,12 +140,6 @@ function App() {
                 name: data.name,
                 type: data.types[0].type.name
               });
-              /*if (!data.sprites.other.home.front_default) {
-                setPokemonData((prevState) => ({
-                  ...prevState,
-                  imageUrl: data.sprites.home_default,
-                }));
-              }*/
               console.log(data.name);
             }
           });
@@ -177,7 +172,7 @@ function App() {
               <Dica tipo={pokemonData.type} corDeFundo={backgroundColors[pokemonData.type]} />
             </>
           ) : (
-            <p>Carregando...</p>
+            <Loading />
           )}
         </div>
       }
