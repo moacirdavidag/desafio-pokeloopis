@@ -53,9 +53,9 @@ function App() {
 
   const handleKeyUpInputEvent = (e) => {
     if (e.keyCode === 13 || e.code === "Enter") {
-      if (pokemonChute.toLowerCase() === pokemonData.name.toLowerCase().replace(/-/g, " ")) {//nao precisa mais dos hifens
+      if (pokemonChute.toLowerCase() === pokemonData.name.toLowerCase().replace(/-/g, " ") 
+       || pokemonChute.toLowerCase() === pokemonData.name.toLowerCase()) {//nao precisa mais dos hifens
         handleSounds('acertou');
-        //setAcertouChute(true);
         setCorDeFundoInput(inputColors.certo);
         setPontuacao(pontuacao + 1);
         handleNext();
@@ -82,10 +82,8 @@ function App() {
   };
 
   const handlePlay = () => {
-    console.log(jogando);
     setJogando(!jogando);
     setPokemonData(null);
-    console.log(jogando);
     handleNext();
   }
 
@@ -94,7 +92,7 @@ function App() {
     setPontuacao(0);
     setPokemonChute("");
     setJogando(!jogando);
-    handleGameAmbientSound();
+    //handleGameAmbientSound();estava desligando e ligando a musica sempre que perdia
   }
 
   const handleSounds = (opcao) => {
@@ -130,7 +128,6 @@ function App() {
             if (response.status === 200) {
               const data = response.data;
               setPokemonData({
-                //imageUrl: data.sprites.other.home.front_default,//as vezes o pokemon não possui esse sprite
                 imageUrl: `${DEFAULT_IMG_URL}${id}.png`,
                 name: data.name,
                 type: data.types[0].type.name
