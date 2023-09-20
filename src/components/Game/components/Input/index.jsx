@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-export const Input = ({ valueInput, setInputValue, keyDownEvent, corDeFundo }) => {
+export const Input = ({ valueInput, setInputValue, keyDownEvent, background }) => {
   return (
     <input type="text" value={valueInput}
       onChange={e => {
@@ -12,7 +12,7 @@ export const Input = ({ valueInput, setInputValue, keyDownEvent, corDeFundo }) =
         keyDownEvent(e)
       }}
       className={`input`}
-      style={{ background: corDeFundo }}
+      style={{ background }}
     />
   )
 }

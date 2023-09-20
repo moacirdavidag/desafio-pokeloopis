@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.css';
-import pokeball from '../../assets/images/pokeball.png';
+import pokeball from '../../../../assets/images/pokeball.png';
 
 export const Loading = () => {
   return (
