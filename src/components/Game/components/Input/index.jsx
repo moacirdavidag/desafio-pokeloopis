@@ -7,7 +7,7 @@ export const Input = ({ valueInput, setInputValue, keyDownEvent, background }) =
       onChange={e => {
         setInputValue(e.target.value);
       }}
-      autoFocus="true"
+      autoFocus={true}
       onKeyDownCapture={e => {
         keyDownEvent(e)
       }}

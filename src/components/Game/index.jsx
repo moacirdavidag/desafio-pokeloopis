@@ -9,11 +9,12 @@ import { Loading } from './components/Loading';
 import { useContext } from 'react';
 import { PlayingContext } from '../../context/PlayingContext';
 import { comparePokemonName } from '../../utils/comparePokemonName';
-import {saveRecord } from '../../services/recorde';
+import { saveRecord } from '../../services/recorde';
 
 import { useFetchPokemon } from '../../hooks/useFetchPokemon';
 import { backgroundColors } from '../../constants/background-colors';
 import { inputColors } from '../../constants/input-colors';
+import { ConfigMusicButton } from './components/ConfigButton';
 
 export const Game = () => {
 
@@ -68,6 +69,7 @@ export const Game = () => {
             {isLoading ? <Loading /> :
                 <div className='container'>
                     <Record current={points} max={localStorage.getItem('recorde') ? localStorage.getItem('recorde') : 0} />
+                    <ConfigMusicButton />
                     <Pokemon
                         image={pokemon.image}
                         isShowing={questionIsRight}
