@@ -7,11 +7,11 @@ import { Tip } from './components/Tip';
 import { Loading } from './components/Loading';
 
 import { useContext } from 'react';
-import { PlayingContext } from '../../../context/PlayingContext';
-import { comparePokemonName } from '../../../utils/comparePokemonName';
-import { saveRecord } from '../../services/recorde';
+import { PlayingContext } from '../../context/PlayingContext';
+import { comparePokemonName } from '../../utils/comparePokemonName';
+import {saveRecord } from '../../services/recorde';
 
-import { useFetchPokemon } from '../../../hooks/useFetchPokemon';
+import { useFetchPokemon } from '../../hooks/useFetchPokemon';
 import { backgroundColors } from '../../constants/background-colors';
 import { inputColors } from '../../constants/input-colors';
 

@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { Game } from './components/Game';
 import { StartScreen } from './components/StartScreen';
-import { PlayingContext } from '../context/PlayingContext';
+import { PlayingContext } from './context/PlayingContext';
 
 function App() {
   const { isPlaying } = useContext(PlayingContext);

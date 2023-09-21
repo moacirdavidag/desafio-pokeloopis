@@ -4,7 +4,7 @@ import pokeball from '../../../../assets/images/pokeball.png';
 
 export const Loading = () => {
   return (
-    <div className='container'>
+    <div className='center'>
         <img src={pokeball} alt="Pokeball" className='pokeball-loading' />
         <div className='dot-animation'>
             <div className="dot"></div>

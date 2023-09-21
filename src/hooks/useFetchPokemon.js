@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { API_URL, DEFAULT_IMG_URL } from '../src/constants/connection-urls';
+import { API_URL, DEFAULT_IMG_URL } from '../constants/connection-urls';
 export const useFetchPokemon = (next, isPlaying) => {
     const [pokemon, setPokemon] = useState({});
     const [isLoading, setIsLoading] = useState(false);

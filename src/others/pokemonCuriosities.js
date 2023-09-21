@@ -1,0 +1,22 @@
+export const pokemonCuriosities = [
+    "Os Pokémon não podem comer Pokébolas, embora pareçam deliciosas.",
+    "O primeiro Pokémon projetado foi Rhydon.",
+    "O nome japonês original de Pikachu era 'Pikashy'.",
+    "Existe um Pokémon que é apenas uma chave. Literalmente, ele se chama 'Klefki'.",
+    "Os Doduos têm apenas uma cabeça. A segunda 'cabeça' é na verdade seu intestino.",
+    "Muk, o Pokémon lodo, é composto por substâncias tóxicas acumuladas.",
+    "Jynx é baseada em uma dançarina e não é roxa; ela tem pele negra.",
+    "Os Diglett têm pés sob a terra. É por isso que você nunca viu.",
+    "Mewtwo é um clone do Mew, mas é mais alto por 40 centímetros.",
+    "A Pokedex lista Magikarp como um dos Pokémon mais fracos, mas ele pode evoluir para Gyarados, um dos mais fortes.",
+    "Os Unown só conseguem dizer 'Unown'.",
+    "O lema da Equipe Rocket foi traduzido em várias línguas, mas a letra 'R' é sempre a mesma.",
+    "Existe um Pokémon que é literalmente uma pilha de lixo. Chama-se 'Trubbish'.",
+    "Há um Pokémon chamado 'Ditto' que pode se transformar em qualquer outro Pokémon.",
+    "Jigglypuff pode cantar para adormecer as pessoas, mas também desenha em seus rostos enquanto estão dormindo.",
+    "Bulbasaur é o único Pokémon que começa com a letra 'B' em japonês, inglês e francês.",
+    "Alakazam tem um QI de 5.000, tornando-o mais inteligente do que a maioria dos humanos.",
+    "Os Pokémon não precisam de óculos de sol, mesmo quando usam óculos de sol.",
+    "Dugtrio é apenas um trio de Dugtrios.",
+    "Gengar é uma sombra de Clefable."
+];

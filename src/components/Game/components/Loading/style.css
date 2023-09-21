@@ -1,5 +1,6 @@
 .pokeball-loading {
     width: 10%;
+    margin: 20px 0;
     height: auto;
 }
 
@@ -16,7 +17,6 @@
 @keyframes scaling {
     0%, 100% {
         transform: scale(0.2);
-        background-color: #ffb300;
     }    
     50% {
         transform: scale(0.5);
