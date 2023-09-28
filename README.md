@@ -2,6 +2,8 @@
 
 Este projeto é o resultado do projeto para o **processo seletivo da Empresa Júnior Loopis do IFPB - Campus Cajazeiras**. O PokeLoopis é um jogo construído com *React + Vite*, que consome a API [PokéAPI](https://pokeapi.co/), em que o jogador deve tentar acertar o nome do Pokemon não revelado. Caso acerte, o jogo continua e os seus pontos vão sendo incrementados; do contrário, o jogo reinicia e a maior pontuação é salva (no *localStorage*). 
 
+<img src="https://imgur.com/n8RP6qB.gif" alt="PokeLoopis" width="100%" />
+
 ## 🚀 Inicializando
 
 1 - Clone este repositório.
